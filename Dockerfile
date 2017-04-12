@@ -50,6 +50,9 @@ COPY ./.s2i/bin/ /usr/local/s2i
 # run and build the applications.
 COPY ./contrib/ /opt/app-root
 
+# Add help file
+COPY root /
+
 EXPOSE 8080
 
 # In order to drop the root user, we have to make some directories world

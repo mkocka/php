@@ -1,0 +1,178 @@
+.TH "php" "1" "" "Rado Pitonak \<rpitonak@redhat.com\>" "DATE 07.04.2017"  ""
+
+
+.SH NAME
+.PP
+php \- source to image builder of php applications.
+
+
+.SH DESCRIPTION
+.PP
+Image for building php application as reproducible Docker image using source to image. Image is based on fedora.
+
+.SH USAGE
+.PP
+To pull the php container run:
+
+.PP
+.RS
+
+.nf
+  # docker pull rpitonak/php:7
+
+.fi
+.RE
+
+.PP
+To build your php application run:
+
+.PP
+.RS
+
+.nf
+  # s2i build <SOURCE\-REPOSITORY> rpitonak/php:7 <NAME\-OF\-APP>
+
+.fi
+.RE
+
+.PP
+To run your application in docker container:
+
+.PP
+.RS
+
+.nf
+  # docker run \-p 8080:8080 <NAME\-OF\-APP>
+
+.fi
+.RE
+
+.SH ENVIROMENT VARIABLES
+.PP
+To set environment variables, you can place them as a key value pair into a \fB\fC.sti/environment\fR
+file inside your source code repository.
+
+.PP
+The following environment variables set their equivalent property value in the php.ini file:
+
+.PP
+ERROR\_REPORTING
+    Informs PHP of which errors, warnings and notices you would like it to take action for.
+    Default: E\_ALL \& \~E\_NOTICE
+
+.PP
+DISPLAY\_ERRORS
+    Controls whether or not and where PHP will output errors, notices and warnings.
+    Default: ON
+
+.PP
+DISPLAY\_STARTUP\_ERRORS
+    Cause display errors which occur during PHP's startup sequence to be handled separately from display errors.
+    Default: OFF
+
+.PP
+TRACK\_ERRORS
+    Store the last error/warning message in $php\_errormsg (boolean)
+    Default: OFF
+
+.PP
+HTML\_ERRORS
+    Link errors to documentation related to the error
+    Default: ON
+
+.PP
+INCLUDE\_PATH
+    Path for PHP source files
+    Default: .:/opt/app\-root/src:/usr/share/pear
+
+.PP
+SESSION\_PATH
+    Location for session data files
+    Default: /tmp/sessions
+
+.PP
+SHORT\_OPEN\_TAG
+    Determines whether or not PHP will recognize code between <? and ?> tags
+    Default: OFF
+
+.PP
+DOCUMENTROOT
+    Path that defines the DocumentRoot for your application (ie. /public)
+    Default: /
+
+.PP
+The following environment variables set their equivalent property value in the opcache.ini file:
+
+.PP
+OPCACHE\_MEMORY\_CONSUMPTION
+    The OPcache shared memory storage size in megabytes
+    Default: 128
+
+.PP
+OPCACHE\_REVALIDATE\_FREQ
+    How often to check script timestamps for updates, in seconds. 0 will result in OPcache checking for updates on every request.
+    Default: 2
+
+.PP
+You can also override the entire directory used to load the PHP configuration by setting:
+
+.PP
+PHPRC
+    Sets the path to the php.ini file
+
+.PP
+PHP\_INI\_SCAN\_DIR
+    Path to scan for additional ini configuration files
+
+.PP
+You can override the Apache MPM prefork settings to increase the performance for of the PHP application. In case you set
+the Cgroup limits in Docker, the image will attempt to automatically set the
+optimal values. You can override this at any time by specifying the values
+yourself:
+
+.PP
+HTTPD\_START\_SERVERS
+  The StartServers directive sets the number of child server processes created on startup.
+  Default: 8
+
+.PP
+HTTPD\_MAX\_REQUEST\_WORKERS
+  The MaxRequestWorkers directive sets the limit on the number of simultaneous requests that will be served.
+  \fB\fCMaxRequestWorkers\fR was called \fB\fCMaxClients\fR before version httpd 2.3.13.
+  Default: 256 (this is automatically tuned by setting Cgroup limits for the container using this formula:
+    \fB\fCTOTAL\_MEMORY / 15MB\fR. The 15MB is average size of a single httpd process.
+
+.PP
+You can use a custom composer repository mirror URL to download packages instead of the default 'packagist.org':
+
+.PP
+COMPOSER\_MIRROR
+      Adds a custom composer repository mirror URL to composer configuration. Note: This only affects packages listed in composer.json.
+
+.SH HOT DEPLOY
+.PP
+In order to immediately pick up changes made in your application source code, you need to run your built image with the \fB\fCOPCACHE\_REVALIDATE\_FREQ=0\fR environment variable passed to the Docker \fB\fC\-e\fR run flag:
+
+.PP
+.RS
+
+.nf
+    # docker run \-e OPCACHE\_REVALIDATE\_FREQ=0 \-p 8080:8080 php\-app
+
+.fi
+.RE
+
+.PP
+To change your source code in running container, use Docker's exec command:
+
+.PP
+.RS
+
+.nf
+    # docker exec \-it <CONTAINER\_ID> /bin/bash
+
+.fi
+.RE
+
+.PP
+After you Docker exec into the running container, your current directory is set to \fB\fC/opt/app\-root/src\fR, where the source code is located.
