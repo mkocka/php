@@ -1,5 +1,13 @@
 FROM registry.fedoraproject.org/fedora:25
 
+# Description
+# This image provides an Apache 2.4 + PHP 7.0 environment for running PHP applications.
+# Exposed ports:
+# * 8080 - alternative port for http
+# Additional packages
+#  * git, zip, unzip are needed for composer
+#  * gettext is needed for `envsubst` command used by scripts
+
 MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
 RUN dnf install -y --setopt=tsflags=nodocs php php-opcache && \
@@ -8,6 +16,7 @@ RUN dnf install -y --setopt=tsflags=nodocs php php-opcache && \
     dnf -y clean all
 
 ENV PHP_VERSION=7.0 \
+    VERSION=0 \
     RELEASE=1 \
     ARCH=x86_64
 
@@ -19,12 +28,12 @@ RUN mkdir -p ${HOME} && \
 
 LABEL summary="php runtime" \
       name="php" \
-      version="$PHP_VERSION" \
+      version="$VERSION" \
       release="$RELEASE.$DISTTAG" \
       architecture="$ARCH" \
       description="Platform for building and running PHP 7.0 applications." \
       vendor="Fedora Project" \
-      BZComponent="php" \
+      com.redhat.component="php" \
       usage="s2i build <SOURCE-REPOSITORY> php:7 <APP-NAME>" \
       org.fedoraproject.component="php" \
       authoritative-source-url="registry.fedoraproject.org" \
@@ -34,7 +43,7 @@ LABEL summary="php runtime" \
       io.openshift.expose-services="8080:https" \
       io.openshift.s2i.scripts-url="image:///usr/local/s2i"
 
-
+# S2I scripts
 COPY ./.s2i/bin/ /usr/local/s2i
 
 # Each language image can have 'contrib' a directory with extra files needed to
