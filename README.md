@@ -62,7 +62,7 @@ Repository organization
 
     * **openshift-template.yaml**
 
-          Template to build and run PHP applications easily in OpenShift.
+        Template to build and run PHP applications easily in OpenShift.
 
     * **`.s2i/bin/`**
 
@@ -84,7 +84,7 @@ Repository organization
 
     * **`bin/`**
 
-            Helper scripts for fixing permissions and reading limits from cgroup system.
+        Helper scripts for fixing permissions and reading limits from cgroup system.
 
     * **`contrib/`**
 
