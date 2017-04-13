@@ -7,12 +7,14 @@ FROM registry.fedoraproject.org/fedora:25
 # Additional packages
 #  * git, zip, unzip are needed for composer
 #  * gettext is needed for `envsubst` command used by scripts
+#  * findutils for fixing permissions
+#  * python for cgroup limits helper script
 
 MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
 RUN dnf install -y --setopt=tsflags=nodocs php php-opcache && \
     dnf install -y --setopt=tsflags=nodocs httpd && \
-    dnf install -y --setopt=tsflags=nodocs git gettext zip unzip && \
+    dnf install -y --setopt=tsflags=nodocs git gettext zip unzip findutils python && \
     dnf -y clean all
 
 ENV PHP_VERSION=7.0 \
@@ -45,6 +47,9 @@ LABEL summary="php runtime" \
 
 # S2I scripts
 COPY ./.s2i/bin/ /usr/local/s2i
+
+# Copy executable utilities.
+COPY bin/ /usr/bin/
 
 # Each language image can have 'contrib' a directory with extra files needed to
 # run and build the applications.

@@ -176,3 +176,16 @@ To change your source code in running container, use Docker's exec command:
 
 .PP
 After you Docker exec into the running container, your current directory is set to \fB\fC/opt/app\-root/src\fR, where the source code is located.
+
+.SH SECURITY IMPLICATIONS
+.PP
+\-p 8080:8080
+
+.PP
+.RS
+
+.nf
+ Opens  container  port  8080  and  maps it to the same port on the Host.       
+
+.fi
+.RE

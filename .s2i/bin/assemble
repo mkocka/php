@@ -24,3 +24,6 @@ if [ -f composer.json ]; then
     echo -e "\nConsider adding a 'composer.lock' file into your source repository.\n"
   fi
 fi
+
+# Fix source directory permissions
+fix-permissions ./

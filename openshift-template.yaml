@@ -91,6 +91,17 @@ objects:
               ports :
                 - containerPort : 8080
                   protocol : TCP
+              livenessProbe:
+                tcpSocket:
+                  port: 8080
+                initialDelaySeconds: 15
+                timeoutSeconds: 1
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: 8080
+                initialDelaySeconds: 15
+                timeoutSeconds: 1
   - kind : Service
     apiVersion : v1
     metadata :

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export_vars=$(cgroup-limits); export $export_vars
 export DOCUMENTROOT=${DOCUMENTROOT:-/}
 
 # Default php.ini configuration values, all taken

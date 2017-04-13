@@ -112,4 +112,10 @@ To change your source code in running container, use Docker's exec command:
 
         # docker exec -it <CONTAINER_ID> /bin/bash
 
-After you Docker exec into the running container, your current directory is set to `/opt/app-root/src`, where the source code is located.        
+After you Docker exec into the running container, your current directory is set to `/opt/app-root/src`, where the source code is located.
+
+## SECURITY IMPLICATIONS
+
+-p 8080:8080
+
+     Opens  container  port  8080  and  maps it to the same port on the Host.       
