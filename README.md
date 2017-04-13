@@ -56,6 +56,14 @@ Repository organization
 
         Fedora based Dockerfile.
 
+    * **Makefile**
+
+        Used to build and run docker image.
+
+    * **openshift-template.yaml**
+
+          Template to build and run PHP applications easily in OpenShift.
+
     * **`.s2i/bin/`**
 
         This folder contains scripts that are run by [S2I](https://github.com/openshift/source-to-image):
@@ -74,9 +82,17 @@ Repository organization
 
             This script is called when someone try to run image using docker.  
 
+    * **`bin/`**
+
+            Helper scripts for fixing permissions and reading limits from cgroup system.
+
     * **`contrib/`**
 
         This folder contains a file with commonly used modules.
+
+    * **`root/`**
+
+        Manual pages.
 
     * **`test/`**
 
