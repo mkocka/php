@@ -18,6 +18,7 @@ RUN dnf install -y --setopt=tsflags=nodocs php php-opcache && \
     dnf -y clean all
 
 ENV PHP_VERSION=7.0 \
+    NAME=php\
     VERSION=0 \
     RELEASE=1 \
     ARCH=x86_64
@@ -29,13 +30,13 @@ RUN mkdir -p ${HOME} && \
     -c "Default user" default
 
 LABEL summary="php runtime" \
-      name="php" \
+      name="$FGC/$NAME" \
       version="$VERSION" \
       release="$RELEASE.$DISTTAG" \
       architecture="$ARCH" \
       description="Platform for building and running PHP 7.0 applications." \
       vendor="Fedora Project" \
-      com.redhat.component="php" \
+      com.redhat.component="$NAME" \
       usage="s2i build <SOURCE-REPOSITORY> php:7 <APP-NAME>" \
       org.fedoraproject.component="php" \
       authoritative-source-url="registry.fedoraproject.org" \
