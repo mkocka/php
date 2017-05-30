@@ -28,7 +28,7 @@ objects:
         - name : latest
           from :
             kind : DockerImage
-            name : rpitonak/php:7
+            name : modularitycontainers/php
   - kind : BuildConfig
     apiVersion : v1
     metadata :

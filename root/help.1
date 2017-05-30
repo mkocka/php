@@ -18,7 +18,7 @@ To pull the php container run:
 .RS
 
 .nf
-  # docker pull rpitonak/php:7
+  # docker pull modularitycontainers/php
 
 .fi
 .RE
@@ -30,7 +30,7 @@ To build your php application run:
 .RS
 
 .nf
-  # s2i build <SOURCE\-REPOSITORY> rpitonak/php:7 <NAME\-OF\-APP>
+  # s2i build <SOURCE\-REPOSITORY> modularitycontainers/php <NAME\-OF\-APP>
 
 .fi
 .RE
@@ -185,7 +185,7 @@ After you Docker exec into the running container, your current directory is set 
 .RS
 
 .nf
- Opens  container  port  8080  and  maps it to the same port on the Host.       
+ Opens  container  port  8080  and  maps it to the same port on the Host.
 
 .fi
 .RE

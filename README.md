@@ -26,12 +26,12 @@ Usage
 
 Build your PHP application
 ```
-s2i build <SOURCE-REPOSITORY> php:7 <NAME-OF-APP>
+s2i build <SOURCE-REPOSITORY> php <NAME-OF-APP>
 ```
 Substitute <SOURCE-REPOSITORY> with path to your application or link to GitHub repository.
 For example:
 ```
-s2i build https://github.com/fermayo/hello-world-php php:7 hello-world
+s2i build https://github.com/fermayo/hello-world-php php hello-world
 ```
 
 Then run application in docker container:
@@ -214,6 +214,14 @@ docker exec -it <CONTAINER_ID> /bin/bash
 
 After you [Docker exec](http://docker.io) into the running container, your current directory is set
 to `/opt/app-root/src`, where the source code is located.
+
+Test
+---------------------
+Run:
+```
+$ make test
+```
+This will build candidate image and check the basic functionality of s2i image.
 
 Running in OpenShift
 ---------------------

@@ -1,33 +1,26 @@
-FROM registry.fedoraproject.org/fedora:25
+FROM baseruntime/baseruntime:latest
 
 # Description
 # This image provides an Apache 2.4 + PHP 7.0 environment for running PHP applications.
 # Exposed ports:
 # * 8080 - alternative port for http
-# Additional packages
-#  * git, zip, unzip are needed for composer
-#  * gettext is needed for `envsubst` command used by scripts
-#  * findutils for fixing permissions
-#  * python for cgroup limits helper script
 
-MAINTAINER Rado Pitonak <rpitonak@redhat.com>
+LABEL MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
-RUN dnf install -y --setopt=tsflags=nodocs php php-opcache && \
-    dnf install -y --setopt=tsflags=nodocs httpd && \
-    dnf install -y --setopt=tsflags=nodocs git gettext zip unzip findutils python && \
-    dnf -y clean all
+COPY repos/* /etc/yum.repos.d/
+
+RUN sed -i 's|/jkaluza/|/ralph/|g' /etc/yum.repos.d/build.repo && \
+    microdnf --nodocs --enablerepo fedora install tar unzip findutils gettext python && \
+    microdnf --nodocs --enablerepo php install php php-common php-opcache && \
+    microdnf -y clean all
 
 ENV PHP_VERSION=7.0 \
-    NAME=php\
+    NAME=php \
     VERSION=0 \
     RELEASE=1 \
     ARCH=x86_64
 
 ENV HOME=/opt/app-root
-
-RUN mkdir -p ${HOME} && \
-    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
-    -c "Default user" default
 
 LABEL summary="php runtime" \
       name="$FGC/$NAME" \
@@ -37,7 +30,7 @@ LABEL summary="php runtime" \
       description="Platform for building and running PHP 7.0 applications." \
       vendor="Fedora Project" \
       com.redhat.component="$NAME" \
-      usage="s2i build <SOURCE-REPOSITORY> php:7 <APP-NAME>" \
+      usage="s2i build <SOURCE-REPOSITORY> php <APP-NAME>" \
       org.fedoraproject.component="php" \
       authoritative-source-url="registry.fedoraproject.org" \
       io.k8s.description="Platform for building and running PHP 7.0 applications." \
@@ -69,6 +62,8 @@ RUN mkdir -p ${HOME}/src && \
     head -n151 /etc/httpd/conf/httpd.conf | tail -n1 | grep "AllowOverride All" || exit && \
     echo "IncludeOptional /opt/app-root/etc/conf.d/*.conf" >> /etc/httpd/conf/httpd.conf && \
     mkdir /tmp/sessions && \
+    useradd -r -g 0 -d ${HOME} -s /sbin/nologin \
+      -c "Default Application User" default && \
     chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /tmp/sessions && \
     chmod -R ug+rwx /opt/app-root && \
