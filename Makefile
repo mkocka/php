@@ -1,13 +1,15 @@
-.PHONY: build run test
+.PHONY: build run test build-test
 
 IMAGE_NAME=php
-VERSION=7
 
 build:
-	docker build --tag=$(IMAGE_NAME):$(VERSION) .
-	
+	docker build --tag=$(IMAGE_NAME) .
+
 run: build
 	docker run -d -p 8080:8080 $(IMAGE_NAME)
 
-test: build
-	./run-test.sh
+build-test:
+	docker build --tag=$(IMAGE_NAME)-candidate .
+
+test: build-test
+	./test/run

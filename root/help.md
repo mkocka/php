@@ -11,11 +11,11 @@ Image for building php application as reproducible Docker image using source to 
 
 To pull the php container run:
 
-      # docker pull rpitonak/php:7
+      # docker pull modularitycontainers/php
 
 To build your php application run:
 
-      # s2i build <SOURCE-REPOSITORY> rpitonak/php:7 <NAME-OF-APP>
+      # s2i build <SOURCE-REPOSITORY> modularitycontainers/php <NAME-OF-APP>
 
 To run your application in docker container:
 
