@@ -9,8 +9,7 @@ LABEL MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
 COPY repos/* /etc/yum.repos.d/
 
-RUN sed -i 's|/jkaluza/|/ralph/|g' /etc/yum.repos.d/build.repo && \
-    microdnf --nodocs --enablerepo fedora install tar unzip findutils gettext python && \
+RUN microdnf --nodocs --enablerepo fedora install tar unzip findutils gettext python && \
     microdnf --nodocs --enablerepo php install php php-common php-opcache && \
     microdnf -y clean all
 
