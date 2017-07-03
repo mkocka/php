@@ -1,4 +1,4 @@
-FROM modularitycontainers/boltron-preview:latest
+FROM baseruntime/baseruntime:latest
 
 # Description
 # This image provides an Apache 2.4 + PHP 7.0 environment for running PHP applications.
@@ -7,8 +7,8 @@ FROM modularitycontainers/boltron-preview:latest
 
 LABEL MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
-RUN dnf --rpm --nodocs -y install tar unzip findutils gettext python php-opcache && \
-    dnf --nodocs -y install php && \
+RUN microdnf --nodocs install tar unzip findutils gettext python && \
+    microdnf --nodocs install php php-common php-opcache && \
     microdnf -y clean all
 
 ENV PHP_VERSION=7.0 \
