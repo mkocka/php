@@ -9,7 +9,7 @@ LABEL MAINTAINER Rado Pitonak <rpitonak@redhat.com>
 
 RUN dnf --rpm --nodocs -y install tar unzip findutils gettext python php-opcache && \
     dnf --nodocs -y install php && \
-    microdnf -y clean all
+    dnf -y clean all
 
 ENV PHP_VERSION=7.0 \
     NAME=php \
